@@ -1,0 +1,17 @@
+language: java
+install: true
+jdk:
+- oraclejdk8
+script:
+- "./gradlew build"
+- scripts/create_executable_jars.sh
+- cd build; zip vtl.zip vtl-cli.jar vtl zos/vtl; cd ..
+after_success:
+- bash <(curl -s https://codecov.io/bash)
+deploy:
+  provider: releases
+  api_key: "$GITHUB_OAUTH_TOKEN"
+  file: build/vtl.zip
+  skip-cleanup: true
+  on:
+    tags: true
