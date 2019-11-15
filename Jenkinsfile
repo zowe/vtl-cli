@@ -78,7 +78,7 @@ pipeline {
     }
 
     stages {
-        stage ('Build') {
+        stage ('Build1') {
             steps {
                 timeout(time: 10, unit: 'MINUTES') {
                     sh './gradlew build'
