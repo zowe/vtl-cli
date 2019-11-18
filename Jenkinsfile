@@ -82,6 +82,7 @@ pipeline {
         stage ('Build') {
             steps {
                 timeout(time: 10, unit: 'MINUTES') {
+                    sh 'chmod +x ./gradlew'
                     sh './gradlew build'
                 }
             }
