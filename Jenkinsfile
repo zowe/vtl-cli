@@ -91,6 +91,7 @@ pipeline {
         stage ('Create executable scripts') {
             steps {
                 timeout(time: 10, unit: 'MINUTES') {
+                    sh 'chmod +x scripts/create_executable_jars.sh'
                     sh 'scripts/create_executable_jars.sh'                    
                 }
             }
