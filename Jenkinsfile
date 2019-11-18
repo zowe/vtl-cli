@@ -96,5 +96,13 @@ pipeline {
                 }
             }
         }
+        // Stage 3
+        stage ('Zip files') {
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    sh 'cd build; zip vtl.zip vtl-cli.jar vtl zos/vtl; cd ..'                    
+                }
+            }
+        }
     }
 }
