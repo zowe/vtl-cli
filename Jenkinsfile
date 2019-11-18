@@ -87,5 +87,13 @@ pipeline {
                 }
             }
         }
+        // Stage 2
+        stage ('Create executable scripts') {
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    sh 'scripts/create_executable_jars.sh'                    
+                }
+            }
+        }
     }
 }
