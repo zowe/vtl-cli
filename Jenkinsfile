@@ -105,4 +105,11 @@ pipeline {
             }
         }
     }
+
+    post {
+        
+        success {
+            archiveArtifacts artifacts: 'vtl.tar.gz'
+        }
+    }
 }
