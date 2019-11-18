@@ -104,6 +104,14 @@ pipeline {
                 }
             }
         }
+        // Stage 4
+        stage ('Codecov') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'Codecov', usernameVariable: 'CODECOV_USERNAME', passwordVariable: 'CODECOV_TOKEN')]) {
+                    sh 'curl -s https://codecov.io/bash | bash -s'
+                }
+            }
+        }
     }
 
     post {
