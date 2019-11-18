@@ -109,7 +109,7 @@ pipeline {
     post {
         
         success {
-            archiveArtifacts artifacts: 'vtl.tar.gz'
+            archiveArtifacts artifacts: 'build/vtl.tar.gz'
         }
     }
 }
