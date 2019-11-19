@@ -1,7 +1,8 @@
 /**
  * The name of the master branch
  */
-def MASTER_BRANCH = "master"
+//def MASTER_BRANCH = "master"
+def MASTER_BRANCH = "initDevPipeline1"
 
 /**
 * Is this a release branch? Temporary workaround that won't break everything horribly if we merge.
@@ -46,6 +47,16 @@ def GIT_CREDENTIALS_ID = 'zowe-robot-github'
  * A command to be run that gets the current revision pulled down
  */
 def GIT_REVISION_LOOKUP = 'git log -n 1 --pretty=format:%h'
+
+/**
+ * The credentials id field for the artifactory username and password
+ */
+def ARTIFACTORY_CREDENTIALS_ID = 'GizaArtifactory'
+
+/**
+ * The email address for the artifactory
+ */
+def ARTIFACTORY_EMAIL = GIT_USER_EMAIL
 
 // Setup conditional build options. Would have done this in the options of the declarative pipeline, but it is pretty
 // much impossible to have conditional options based on the branch :/
@@ -105,6 +116,19 @@ pipeline {
             }
         }
         // Stage 4
+        stage('Publish snapshot version to Artifactory for master') {
+                    when {
+                        expression {
+                            return BRANCH_NAME.equals(MASTER_BRANCH);
+                        }
+                    }
+                    steps {
+                        withCredentials([usernamePassword(credentialsId: ARTIFACTORY_CREDENTIALS_ID, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh "./gradlew publishAllVersions -Pzowe.deploy.username=$USERNAME -Pzowe.deploy.password=$PASSWORD"
+                        }
+                    }
+                }
+        // Stage 5
         stage ('Codecov') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'Codecov', usernameVariable: 'CODECOV_USERNAME', passwordVariable: 'CODECOV_TOKEN')]) {
