@@ -1,8 +1,6 @@
 # Velocity Template Language (VTL) Command-Line Interface
 
-[![Build Status](https://travis-ci.com/plavjanik/vtl-cli.svg?branch=master)](https://travis-ci.com/plavjanik/vtl-cli)
-[![codecov](https://codecov.io/gh/plavjanik/vtl-cli/branch/master/graph/badge.svg)](https://codecov.io/gh/plavjanik/vtl-cli)
-[![CodeFactor](https://www.codefactor.io/repository/github/plavjanik/vtl-cli/badge)](https://www.codefactor.io/repository/github/plavjanik/vtl-cli)
+[![codecov](https://codecov.io/github/zowe/vtl-cli/branch/master/graph/badge.svg)](https://codecov.io/github/zowe/vtl-cli)
 
 This is simple Java command-line application that uses Apache Velocity to 'merge' VTL templates from shell scripts. 
 
@@ -25,13 +23,14 @@ Features:
 
 ## Installation
 
-1. Download https://github.com/plavjanik/vtl-cli/releases/download/v0.1.1/vtl.zip:
+1. Download https://github.com/zowe/vtl-cli/releases/download/v0.1.0/vtl.tar.gz:
 
-        curl -LO https://github.com/plavjanik/vtl-cli/releases/download/v0.1.1/vtl.zip
+        curl -LO https://github.com/zowe/vtl-cli/releases/download/v0.1.0/vtl.tar.gz
 
+    or locate new release of vtl.tar.gz in https://github.com/zowe/vtl-cli/releases
 2. Extract it:
 
-        unzip vtl.zip
+        unzip vtl.tar.gz
 
 3. There are several files available:
     
@@ -112,7 +111,7 @@ The template language is described in [Velocity User Guide](http://velocity.apac
 
 ## Releasing
 
-The new releases are done by Travis CI after new tag is created:
+The new releases are done by Jenkins after new tag is created:
 
     git tag v0.1.0
     git push --tags
