@@ -161,10 +161,10 @@ pipeline {
                             def buildInfo = Artifactory.newBuildInfo()
                             server.upload spec: uploadSpec, buildInfo: buildInfo
                             server.publishBuildInfo buildInfo
+                            }
+                        }
                     }
-                }
-            }
-                }
+        }
         // Stage 6
         stage ('Codecov') {
             steps {
