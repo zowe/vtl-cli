@@ -58,6 +58,22 @@ def ARTIFACTORY_CREDENTIALS_ID = 'GizaArtifactory'
  */
 def ARTIFACTORY_EMAIL = GIT_USER_EMAIL
 
+/**
+* The VTL CLI Bundle Version to deploy to Artifactory
+*/
+def VTL_CLI_BUNDLE_VERSION = "0.1.0-SNAPSHOT"
+
+/**
+* The target repository for VTL CLI Package SNAPSHOTs
+*/ 
+def ARTIFACTORY_SNAPSHOT_REPO = "libs-snapshot-local"
+
+/**
+* Target Repository for VTL CLI Package Releases
+*/ 
+def ARTIFACTORY_RELEASE_REPO = "libs-release-local"
+
+
 // Setup conditional build options. Would have done this in the options of the declarative pipeline, but it is pretty
 // much impossible to have conditional options based on the branch :/
 def opts = []
@@ -116,6 +132,14 @@ pipeline {
             }
         }
         // Stage 4
+        stage ('Archive artifact') {
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    archiveArtifacts artifacts: 'build/vtl.tar.gz'                   
+                }
+            }
+        }
+        // Stage 5
         stage('Publish snapshot version to Artifactory for master') {
                     when {
                         expression {
@@ -123,12 +147,25 @@ pipeline {
                         }
                     }
                     steps {
-                        withCredentials([usernamePassword(credentialsId: ARTIFACTORY_CREDENTIALS_ID, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh "./gradlew publishAllVersions -Pzowe.deploy.username=$USERNAME -Pzowe.deploy.password=$PASSWORD"
-                        }
+                        timeout(time: 5, unit: 'MINUTES' ) {
+                            script {
+                            def server = Artifactory.server ARTIFACTORY_SERVER
+                            def targetVersion = VTL_CLI_BUNDLE_VERSION
+                            def targetRepository = targetVersion.contains("-SNAPSHOT") ? ARTIFACTORY_SNAPSHOT_REPO : ARTIFACTORY_RELEASE_REPO
+                            def uploadSpec = """{
+                            "files": [{
+                                "pattern": "build/vtl.tar.gz",
+                                "target": "${targetRepository}/org/zowe/vtl-cli/zowe-cli-package/${targetVersion}/"
+                            }]
+                            }"""
+                            def buildInfo = Artifactory.newBuildInfo()
+                            server.upload spec: uploadSpec, buildInfo: buildInfo
+                            server.publishBuildInfo buildInfo
                     }
                 }
-        // Stage 5
+            }
+                }
+        // Stage 6
         stage ('Codecov') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'Codecov', usernameVariable: 'CODECOV_USERNAME', passwordVariable: 'CODECOV_TOKEN')]) {
@@ -140,8 +177,14 @@ pipeline {
 
     post {
         
-        success {
-            archiveArtifacts artifacts: 'build/vtl.tar.gz'
+        //success {
+        //    archiveArtifacts artifacts: 'build/vtl.tar.gz'
+        //}
+        always{
+            script {
+                def buildStatus = currentBuild.currentResult
+                echo "Build status for current build is ${buildStatus} ."
+            }
         }
     }
 }
