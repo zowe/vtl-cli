@@ -23,9 +23,9 @@ Features:
 
 ## Installation
 
-1. Download https://github.com/zowe/vtl-cli/releases/download/v0.1.0/vtl.tar.gz:
+1. Download https://github.com/zowe/vtl-cli/releases/download/v1.0.0/vtl.tar.gz:
 
-        curl -LO https://github.com/zowe/vtl-cli/releases/download/v0.1.0/vtl.tar.gz
+        curl -LO https://github.com/zowe/vtl-cli/releases/download/v1.0.0/vtl.tar.gz
 
     or locate new release of vtl.tar.gz in https://github.com/zowe/vtl-cli/releases
 2. Extract it:
@@ -113,6 +113,6 @@ The template language is described in [Velocity User Guide](http://velocity.apac
 
 The new releases are done by Jenkins after new tag is created:
 
-    git tag v0.1.0
+    git tag v1.0.0
     git push --tags
 
