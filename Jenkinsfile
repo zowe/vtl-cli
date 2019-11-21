@@ -64,6 +64,11 @@ def ARTIFACTORY_EMAIL = GIT_USER_EMAIL
 def VTL_CLI_BUNDLE_VERSION = "0.1.0-SNAPSHOT"
 
 /**
+*  The Artifactory Server to deploy to.
+*/ 
+def ARTIFACTORY_SERVER = "gizaArtifactory"
+
+/**
 * The target repository for VTL CLI Package SNAPSHOTs
 */ 
 def ARTIFACTORY_SNAPSHOT_REPO = "libs-snapshot-local"
