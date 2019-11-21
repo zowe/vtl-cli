@@ -202,38 +202,20 @@ pipeline {
         //    archiveArtifacts artifacts: 'build/vtl.tar.gz'
         //}
         always{
-            //script {
-            //    def buildStatus = currentBuild.currentResult
-            //    echo "Build status for current build is ${buildStatus} ."
-            //}
             script {
                 def buildStatus = currentBuild.currentResult
-                try {
-                    def recipients = "${MASTER_RECIPIENTS_LIST}"
+                echo "Build status for current build is ${buildStatus} ."
 
-                    def subject = "${currentBuild.currentResult}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
-                    def consoleOutput = """
-                    <p>Branch: <b>${BRANCH_NAME}</b></p>
-                    <p>Check console output at "<a href="${RUN_DISPLAY_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>
-                    """
+                def subject = "${currentBuild.currentResult}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+                echo "Subject is ${subject} ."
 
-                    if (details != "") {
-                        echo "Sending out email with details"
-                        emailext(
-                                subject: subject,
-                                to: recipients,
-                                body: "${consoleOutput}",
-                                recipientProviders: [[$class: 'DevelopersRecipientProvider'],
-                                                        [$class: 'UpstreamComitterRecipientProvider'],
-                                                        [$class: 'CulpritsRecipientProvider'],
-                                                        [$class: 'RequesterRecipientProvider']]
-                        )
-                    }
-                } catch (e) {
-                    echo "Experienced an error sending an email for a ${buildStatus} build"
-                    currentBuild.result = buildStatus
-                }
-            }
+                def consoleOutput = """
+                <p>Branch: <b>${BRANCH_NAME}</b></p>
+                <p>Check console output at "<a href="${RUN_DISPLAY_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>
+                """
+                echo "Console output is ${subject} ."
+
+            }            
         }
     }
 }
