@@ -18,7 +18,6 @@ def MASTER_RECIPIENTS_LIST = "cc:Pavel.Zlatnik@broadcom.com"
  * The name of the master branch
  */
 def MASTER_BRANCH = "master"
-//def MASTER_BRANCH = "initDevPipeline1"
 
 /**
 * Is this a release branch? Temporary workaround that won't break everything horribly if we merge.
@@ -196,11 +195,7 @@ pipeline {
         }
     }
 
-    post {
-        
-        //success {
-        //    archiveArtifacts artifacts: 'build/vtl.tar.gz'
-        //}
+    post {         
         always{
             script {
                 def buildStatus = currentBuild.currentResult
@@ -214,7 +209,6 @@ pipeline {
                 <p>Check console output at "<a href="${RUN_DISPLAY_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>
                 """
                 echo "Console output is ${subject} ."
-
             }            
         }
     }
