@@ -17,8 +17,8 @@ def MASTER_RECIPIENTS_LIST = "cc:Pavel.Zlatnik@broadcom.com"
 /**
  * The name of the master branch
  */
-//def MASTER_BRANCH = "master"
-def MASTER_BRANCH = "initDevPipeline1"
+def MASTER_BRANCH = "master"
+//def MASTER_BRANCH = "initDevPipeline1"
 
 /**
 * Is this a release branch? Temporary workaround that won't break everything horribly if we merge.
