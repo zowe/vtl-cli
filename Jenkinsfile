@@ -1,3 +1,19 @@
+/*
+* This program and the accompanying materials are made available under the terms of the
+* Eclipse Public License v2.0 which accompanies this distribution, and is available at
+* https://www.eclipse.org/legal/epl-v20.html
+*
+* SPDX-License-Identifier: EPL-2.0
+*
+* Copyright Contributors to the Zowe Project.
+*
+*/
+
+/**
+ * List of people who will get all emails for master builds
+ */
+def MASTER_RECIPIENTS_LIST = "cc:Pavel.Zlatnik@broadcom.com"
+
 /**
  * The name of the master branch
  */
@@ -186,9 +202,37 @@ pipeline {
         //    archiveArtifacts artifacts: 'build/vtl.tar.gz'
         //}
         always{
+            //script {
+            //    def buildStatus = currentBuild.currentResult
+            //    echo "Build status for current build is ${buildStatus} ."
+            //}
             script {
                 def buildStatus = currentBuild.currentResult
-                echo "Build status for current build is ${buildStatus} ."
+                try {
+                    def recipients = "${MASTER_RECIPIENTS_LIST}"
+
+                    def subject = "${currentBuild.currentResult}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+                    def consoleOutput = """
+                    <p>Branch: <b>${BRANCH_NAME}</b></p>
+                    <p>Check console output at "<a href="${RUN_DISPLAY_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>
+                    """
+
+                    if (details != "") {
+                        echo "Sending out email with details"
+                        emailext(
+                                subject: subject,
+                                to: recipients,
+                                body: "${consoleOutput}",
+                                recipientProviders: [[$class: 'DevelopersRecipientProvider'],
+                                                        [$class: 'UpstreamComitterRecipientProvider'],
+                                                        [$class: 'CulpritsRecipientProvider'],
+                                                        [$class: 'RequesterRecipientProvider']]
+                        )
+                    }
+                } catch (e) {
+                    echo "Experienced an error sending an email for a ${buildStatus} build"
+                    currentBuild.result = buildStatus
+                }
             }
         }
     }
