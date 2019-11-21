@@ -76,7 +76,7 @@ def ARTIFACTORY_EMAIL = GIT_USER_EMAIL
 /**
 * The VTL CLI Bundle Version to deploy to Artifactory
 */
-def VTL_CLI_BUNDLE_VERSION = "0.1.1-SNAPSHOT"
+def VTL_CLI_BUNDLE_VERSION = "1.0.0-SNAPSHOT"
 
 /**
 *  The Artifactory Server to deploy to.
