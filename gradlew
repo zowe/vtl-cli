@@ -1,7 +1,5 @@
 #!/usr/bin/env sh
 
-chmod +x ./gradle/bootstrap/bootstrap_gradlew.sh
-
 DIRNAME=`dirname $0`
 $DIRNAME/gradle/bootstrap/bootstrap_gradlew.sh
 
