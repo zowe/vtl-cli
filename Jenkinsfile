@@ -129,6 +129,8 @@ pipeline {
         stage ('Build') {
             steps {
                 timeout(time: 10, unit: 'MINUTES') {
+                    sh 'chmod -R 777 ./gradle'
+                    sh 'chmod +x ./gradle/bootstrap/bootstrap_gradlew.sh'
                     sh 'chmod +x ./gradlew'
                     sh './gradlew build'
                 }
