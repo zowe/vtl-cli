@@ -76,7 +76,7 @@ def ARTIFACTORY_EMAIL = GIT_USER_EMAIL
 /**
 * The VTL CLI Bundle Version to deploy to Artifactory
 */
-def VTL_CLI_BUNDLE_VERSION = "1.0.4-SNAPSHOT"
+def VTL_CLI_BUNDLE_VERSION = "1.0.5-SNAPSHOT"
 
 /**
 *  The Artifactory Server to deploy to.
@@ -107,7 +107,7 @@ if (BRANCH_NAME == MASTER_BRANCH) {
     // twice in quick succession
     opts.push(disableConcurrentBuilds())
 } else {
-    if (BRANCH_NAME.equals("1.0.4")){
+    if (BRANCH_NAME.equals("1.0.5")){
         RELEASE_BRANCH = true
     }
     // Only keep 5 builds on other branches
