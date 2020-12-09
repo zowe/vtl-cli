@@ -66,7 +66,7 @@ def GIT_REVISION_LOOKUP = 'git log -n 1 --pretty=format:%h'
 /**
  * The credentials id field for the artifactory username and password
  */
-def ARTIFACTORY_CREDENTIALS_ID = 'GizaArtifactory'
+def ARTIFACTORY_CREDENTIALS_ID = 'zowe.jfrog.io'
 
 /**
  * The email address for the artifactory
@@ -160,6 +160,27 @@ pipeline {
                     archiveArtifacts artifacts: 'build/vtl.tar.gz'                   
                 }
             }
+        }
+        // Stage 5temp
+        stage('Publish snapshot version to Artifactory TEST') {                    
+                    steps {
+                        timeout(time: 5, unit: 'MINUTES' ) {
+                            script {
+                            def server = Artifactory.server ARTIFACTORY_SERVER
+                            def targetVersion = VTL_CLI_BUNDLE_VERSION
+                            def targetRepository = targetVersion.contains("-SNAPSHOT") ? ARTIFACTORY_SNAPSHOT_REPO : ARTIFACTORY_RELEASE_REPO
+                            def uploadSpec = """{
+                            "files": [{
+                                "pattern": "build/vtl.tar.gz",
+                                "target": "${targetRepository}/org/zowe/vtl-cli/zowe-cli-package/${targetVersion}/"
+                            }]
+                            }"""
+                            def buildInfo = Artifactory.newBuildInfo()
+                            server.upload spec: uploadSpec, buildInfo: buildInfo
+                            server.publishBuildInfo buildInfo
+                            }
+                        }
+                    }
         }
         // Stage 5
         stage('Publish snapshot version to Artifactory for master') {
