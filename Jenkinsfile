@@ -173,7 +173,7 @@ pipeline {
                             def uploadSpec = """{
                             "files": [{
                                 "pattern": "build/vtl.tar.gz",
-                                "target": "${targetRepository}/org/zowe/vtl-cli/zowe-cli-package/${targetVersion}/"
+                                "target": "${targetRepository}/zowe/vtl-cli/zowe-cli-package/${targetVersion}/"
                             }]
                             }"""
                             def buildInfo = Artifactory.newBuildInfo()
