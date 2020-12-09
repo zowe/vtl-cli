@@ -23,9 +23,9 @@ Features:
 
 ## Installation
 
-1. Download https://github.com/zowe/vtl-cli/releases/download/v1.0.0/vtl.tar.gz:
+1. Download https://github.com/zowe/vtl-cli/releases/download/v1.0.6/vtl.tar.gz:
 
-        curl -LO https://github.com/zowe/vtl-cli/releases/download/v1.0.0/vtl.tar.gz
+        curl -LO https://github.com/zowe/vtl-cli/releases/download/v1.0.6/vtl.tar.gz
 
     or locate new release of vtl.tar.gz in https://github.com/zowe/vtl-cli/releases
 2. Extract it:
