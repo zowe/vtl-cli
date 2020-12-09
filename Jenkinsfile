@@ -66,7 +66,7 @@ def GIT_REVISION_LOOKUP = 'git log -n 1 --pretty=format:%h'
 /**
  * The credentials id field for the artifactory username and password
  */
-def ARTIFACTORY_CREDENTIALS_ID = 'GizaArtifactory'
+def ARTIFACTORY_CREDENTIALS_ID = 'zowe.jfrog.io'
 
 /**
  * The email address for the artifactory
@@ -76,12 +76,13 @@ def ARTIFACTORY_EMAIL = GIT_USER_EMAIL
 /**
 * The VTL CLI Bundle Version to deploy to Artifactory
 */
-def VTL_CLI_BUNDLE_VERSION = "1.0.5-SNAPSHOT"
+def VTL_CLI_BUNDLE_VERSION = "1.0.6-SNAPSHOT"
 
 /**
 *  The Artifactory Server to deploy to.
 */ 
-def ARTIFACTORY_SERVER = "gizaArtifactory"
+//*def ARTIFACTORY_SERVER = "gizaArtifactory"*/
+def ARTIFACTORY_SERVER = "zoweArtifactory"
 
 /**
 * The target repository for VTL CLI Package SNAPSHOTs
@@ -160,7 +161,7 @@ pipeline {
                     archiveArtifacts artifacts: 'build/vtl.tar.gz'                   
                 }
             }
-        }
+        }        
         // Stage 5
         stage('Publish snapshot version to Artifactory for master') {
                     when {
