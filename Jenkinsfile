@@ -81,7 +81,8 @@ def VTL_CLI_BUNDLE_VERSION = "1.0.5-SNAPSHOT"
 /**
 *  The Artifactory Server to deploy to.
 */ 
-def ARTIFACTORY_SERVER = "gizaArtifactory"
+//*def ARTIFACTORY_SERVER = "gizaArtifactory"*/
+def ARTIFACTORY_SERVER = "zowe.jfrog.io"
 
 /**
 * The target repository for VTL CLI Package SNAPSHOTs
