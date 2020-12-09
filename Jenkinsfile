@@ -76,7 +76,7 @@ def ARTIFACTORY_EMAIL = GIT_USER_EMAIL
 /**
 * The VTL CLI Bundle Version to deploy to Artifactory
 */
-def VTL_CLI_BUNDLE_VERSION = "1.0.5-SNAPSHOT"
+def VTL_CLI_BUNDLE_VERSION = "1.0.6-SNAPSHOT"
 
 /**
 *  The Artifactory Server to deploy to.
@@ -161,28 +161,7 @@ pipeline {
                     archiveArtifacts artifacts: 'build/vtl.tar.gz'                   
                 }
             }
-        }
-        // Stage 5temp
-        stage('Publish snapshot version to Artifactory TEST') {                    
-                    steps {
-                        timeout(time: 5, unit: 'MINUTES' ) {
-                            script {
-                            def server = Artifactory.server ARTIFACTORY_SERVER
-                            def targetVersion = VTL_CLI_BUNDLE_VERSION
-                            def targetRepository = targetVersion.contains("-SNAPSHOT") ? ARTIFACTORY_SNAPSHOT_REPO : ARTIFACTORY_RELEASE_REPO
-                            def uploadSpec = """{
-                            "files": [{
-                                "pattern": "build/vtl.tar.gz",
-                                "target": "${targetRepository}/zowe/vtl-cli/zowe-cli-package/${targetVersion}/"
-                            }]
-                            }"""
-                            def buildInfo = Artifactory.newBuildInfo()
-                            server.upload spec: uploadSpec, buildInfo: buildInfo
-                            server.publishBuildInfo buildInfo
-                            }
-                        }
-                    }
-        }
+        }        
         // Stage 5
         stage('Publish snapshot version to Artifactory for master') {
                     when {
