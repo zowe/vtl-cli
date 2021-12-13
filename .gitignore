@@ -28,8 +28,8 @@ hs_err_pid*
 # Ignore Gradle GUI config
 gradle-app.setting
 
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
+# Gradle wrapper jar file (.jar files cannot be in OMP projects source code)
+gradle/wrapper/gradle-wrapper.jar
 
 # Cache of project
 .gradletasknamecache
